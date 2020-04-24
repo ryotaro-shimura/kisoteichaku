@@ -10,6 +10,7 @@ public class SyainInfo implements Serializable {
 	private String syainGender;
 	private String syainAddress;
 	private String busyoId;
+//	private String url;
 
 	public String getSyainId() {
 		return syainId;
@@ -47,7 +48,18 @@ public class SyainInfo implements Serializable {
 	public void setBusyoId(String busyoId) {
 		this.busyoId = busyoId;
 	}
+//	public String getUrl() {
+//		return url;
+//	}
+//	public void setUrl(String url) {
+//		this.url = url;
+//	}
 
+	@Override
 
+	public String toString() {
+		return "SyainInfo [syainId=" + syainId + ", syainName=" + syainName + ",syainAge =" +syainAge + ", syainGender=" +syainGender + ",syainAddress="
+				+ syainAddress + ", busyoId=" + busyoId + "]";
+	}
 
 }
