@@ -2,13 +2,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>社員データベース管理ページ</title>
+<!-- read a css file here -->
+<script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script type="text/javascript" src="SyainInfo.js"></script>
 </head>
 <body>
 	<h2>社員一覧：</h2>
 	<div>
 		<table id="table_data">
-			<tr>
+			<tr class="top">
 				<th>社員ID</th>
 				<th>名前</th>
 			</tr>
@@ -16,7 +19,7 @@
 	</div>
 	<div>
 		<button id="new_add">新規追加</button>
-		<button id="syain_search">検索</button>
+		<button id="search">検索</button>
 	</div>
 </body>
 </html>
