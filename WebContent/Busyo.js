@@ -2,7 +2,7 @@
 
 $.ajax({
 	type: 'GET',
-	url: '/BusyoList' ,
+	url: '/kisoteichaku/BusyoList' ,
 	dataType: 'json' ,
 	success :function(json){
 		console.log(json);

@@ -4,14 +4,14 @@
 
 $.ajax({
 	type: 'GET',
-	url: '/SyainList' ,
+	url: '/kisoteichaku/SyainList' ,
 	dataType: 'json' ,
 	success :function(json){
 		console.log(json);
 		for(var i=0; i<json.length; i++){
 			var row = '<tr>'+
-			'<td>'+json[i].syainId+'</td>'+
-			'<td>'+json[i].syainName+'</td>'+
+			'<td id="syainId">'+json[i].syainId+'</td>'+
+			'<td id="syainName">'+json[i].syainName+'</td>'+
 			'<td>'+'<button id="syain_edit">編集</button>'+'</td>'+
 			'<td>'+'<button id="syain_delete">削除</button>'+'</td>'+
 			'</tr>';
@@ -29,15 +29,15 @@ $.ajax({
 
 //the action when you push some buttons
 var newlyAdd = function(){
-	location:href='';
+	location.href = './AddEdit.html';
 }
 
 var search = function(){
-	location.href='./SyainSearch.html';
+	location.href = './SyainSearch.html';
 }
 
 var edit = function(){
-
+	location.href = '';
 }
 
 var deletion = function(){
