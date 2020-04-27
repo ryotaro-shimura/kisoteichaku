@@ -56,14 +56,15 @@ public class BusyoServlet extends HttpServlet {
 
 			// 実行するSQL文
 			String sql = "SELECT \n" +
-					"	BY.BUSYO_ID, \n" +
-					"	BY.BUSYO_NAME \n" +
+					"	MS.BUSYO_ID, \n" +
+					"	MS.BUSYO_NAME \n" +
 					"FROM \n" +
-					"	MS_BUSYO BY \n" +
+					"	MS_BUSYO MS \n" +
 					"WHERE \n" +
-					"	1=1 \n"
+					"	MS.BUSYO_ID = 'D01' \n"
 			;
 
+			List<BusyoInfo> busyoList = new ArrayList<>();
 
 			// エラーが発生するかもしれない処理はtry-catchで囲みます
 			// この場合はDBサーバへの接続に失敗する可能性があります
@@ -79,7 +80,7 @@ public class BusyoServlet extends HttpServlet {
 					// SQL実行後の処理内容
 				) {
 
-				List<BusyoInfo> busyoList = new ArrayList<>();
+
 
 				while (rs1.next()) {
 					BusyoInfo busyo = new BusyoInfo();
@@ -89,16 +90,15 @@ public class BusyoServlet extends HttpServlet {
 					 busyoList.add(busyo);
 				}
 
-				// アクセスした人に応答するためのJSONを用意する
-				PrintWriter pw = response.getWriter();
-				// JSONで出力する
-				pw.append(new ObjectMapper().writeValueAsString("hello"));
-
 
 			} catch (Exception e) {
 				throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 			}
 
+			// アクセスした人に応答するためのJSONを用意する
+			PrintWriter pw = response.getWriter();
+			// JSONで出力する
+			pw.append(new ObjectMapper().writeValueAsString(busyoList));
 
 	}
 

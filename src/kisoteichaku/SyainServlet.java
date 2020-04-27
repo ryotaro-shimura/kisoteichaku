@@ -37,7 +37,11 @@ public class SyainServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+
+		//String syainId = request.getParameter("syainId");
+
+
 		// JDBCドライバの準備
 		try {
 
@@ -55,15 +59,14 @@ public class SyainServlet extends HttpServlet {
 		String pass = "kisoteichaku";
 
 		// 実行するSQL文
-		String sql = "SELECT \n" +
-			"	SY.SYAIN_ID, \n" +
-				"	SY.SYAIN_NAME \n" +
-				"FROM \n" +
-				"	TR_SYAIN SY \n" +
-				"WHERE  \n" +
-				"	1=1 \n"
+		String sql ="select \n" +
+				"	sy.SYAIN_ID, \n" +
+				"	sy.SYAIN_NAME \n" +
+				"from \n" +
+				" TR_SYAIN sy \n"
 		;
 
+		List<SyainInfo> syainList = new ArrayList<>();
 
 		// エラーが発生するかもしれない処理はtry-catchで囲みます
 		// この場合はDBサーバへの接続に失敗する可能性があります
@@ -78,9 +81,10 @@ public class SyainServlet extends HttpServlet {
 			// SQL実行後の処理内容
 			) {
 
-			List<SyainInfo> syainList = new ArrayList<>();
 
-			while (rs1.next()) {
+
+			while(rs1.next()) {
+
 				SyainInfo syain = new SyainInfo();
 
 				syain.setSyainId(rs1.getString("SYAIN_ID"));
@@ -91,13 +95,13 @@ public class SyainServlet extends HttpServlet {
 			// アクセスした人に応答するためのJSONを用意する
 			PrintWriter pw = response.getWriter();
 			// JSONで出力する
-			pw.append(new ObjectMapper().writeValueAsString("hello"));
+			pw.append(new ObjectMapper().writeValueAsString(syainList));
+
 
 
 		} catch (Exception e) {
 			throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 		}
-
 
 	}
 
