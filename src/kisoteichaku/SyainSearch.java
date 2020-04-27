@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Servlet implementation class SyainSearch
  */
-@WebServlet("/SyainSearch")
+@WebServlet("/Search")
 public class SyainSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +41,8 @@ public class SyainSearch extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		String syainId = request.getParameter("syainId");
-
+		String syainName = request.getParameter("syainName");
+//		String  busyoName = request.getParameter("busyoName");
 
 		// JDBCドライバの準備
 				try {
@@ -58,19 +61,21 @@ public class SyainSearch extends HttpServlet {
 				String pass = "kisoteichaku";
 
 				// 実行するSQL文
-				String sql = "select \n" +
-						"	sy.SYAIN_ID, \n" +
-						"	sy.SYAIN_NAME, \n" +
-						"	sy.SYAIN_AGE, \n" +
-						"	sy.SYAIN_GENDER, \n" +
-						"	sy.SYAIN_ADDRESS, \n" +
-						"	sy.BUSYO_ID \n" +
-						"from \n" +
-						" TR_SYAIN sy \n" +
-						"where \n" +
-						"	sy.SYAIN_ID = 'EMP0001' \n"
+				String sql = "SELECT " +
+						"	SY.SYAIN_ID, " +
+						"	SY.SYAIN_NAME, " +
+						"	BU.BUSYO_NAME " +
+						"FROM " +
+						"    TR_SYAIN SY, " +
+						"	MS_BUSYO BU " +
+						"WHERE " +
+						"	1=1 " +
+						"	AND SY.BUSYO_ID = BU.BUSYO_ID " +
+						"	AND (SY.SYAIN_ID = '"+syainId+"' OR SY.SYAIN_NAME = '"+syainName+"' )"
 				;
-				//"+syainId+"
+				//"+syainId+"AND (SY.SYAIN_ID = '"+syainId+"' OR SY.SYAIN_NAME = '"+syainName+"' OR BU.BUSYO_NAME = '"+busyoName+"')
+
+				List<SyainInfo> syainList = new ArrayList<>();
 
 				// エラーが発生するかもしれない処理はtry-catchで囲みます
 				// この場合はDBサーバへの接続に失敗する可能性があります
@@ -86,28 +91,29 @@ public class SyainSearch extends HttpServlet {
 						// SQL実行後の処理内容
 					) {
 
-					SyainInfo syain = new SyainInfo();
 
-					if (rs1.next()) {
+					while(rs1.next()) {
+
+						SyainInfo syain = new SyainInfo();
+
 						syain.setSyainId(rs1.getString("SYAIN_ID"));
 						syain.setSyainName(rs1.getString("SYAIN_NAME"));
 						syain.setSyainAge(rs1.getString("SYAIN_AGE"));
 						syain.setSyainGender(rs1.getString("SYAIN_GENDER"));
 						syain.setSyainAddress(rs1.getString("SYAIN_ADDRESS"));
 						syain.setBusyoId(rs1.getString("BUSYO_ID"));
-					}
 
-					// アクセスした人に応答するためのJSONを用意する
-						PrintWriter pw = response.getWriter();
-					// JSONで出力する
-					pw.append(new ObjectMapper().writeValueAsString(syain));
-					//pw.append(new ObjectMapper().writeValueAsString("TestTest"));
+						syainList.add(syain);
+					}
 
 
 				} catch (Exception e) {
 					throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 				}
-
+					// アクセスした人に応答するためのJSONを用意する
+					PrintWriter pw = response.getWriter();
+				// JSONで出力する
+				pw.append(new ObjectMapper().writeValueAsString(syainList));
 
 	}
 
