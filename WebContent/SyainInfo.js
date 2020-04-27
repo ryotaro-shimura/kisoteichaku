@@ -12,8 +12,8 @@ $.ajax({
 			var row = '<tr>'+
 			'<td id="syainId">'+json[i].syainId+'</td>'+
 			'<td id="syainName">'+json[i].syainName+'</td>'+
-			'<td>'+'<button id="syain_edit">編集</button>'+'</td>'+
-			'<td>'+'<button id="syain_delete">削除</button>'+'</td>'+
+			'<td>'+'<input type="button" value="編集" id="syain_edit" onclick="edit()">'+'</td>'+
+			'<td>'+'<input type="button" value="削除" id="syain_delete" onclick="deletion()">'+'</td>'+
 			'</tr>';
 
 			$('#table_data').append(row)
@@ -37,17 +37,18 @@ var search = function(){
 }
 
 var edit = function(){
-	location.href = '';
+	console.log('aaa');
+	location.href = './AddEdit.html';
 }
 
 var deletion = function(){
-
+	console.log('aaa');
 }
 $(document).ready(function(){
 
 	$('#new_add').click(newlyAdd);
 	$('#search').click(search);
-	$('#syain_edit').click(edit);
-	$('#syain_delete').click(deletion);
+	$('.syain_edit').click(edit);
+	$('.syain_delete').click(deletion);
 
 });
