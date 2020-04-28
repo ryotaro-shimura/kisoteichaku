@@ -18,6 +18,12 @@ function executeAjax (){
 
 				$('#table_data').append(row)
 			}
+
+			for(var i=0; i<json.length; i++){
+				var department = '<option>' + json[i].busyoName + '</option>';
+
+				$('#busyoName').append(department)
+			}
 		},
 		error :function(XMLHttpRequest,textStatus,errorThrown){
 			alert('データの通信に失敗しました。')
@@ -29,11 +35,11 @@ var getSyainData = function(){
 	console.log('click');
 	var inputSyainId = $('#syainId').val();
 	var inputSyainName = $('#name').val();
-	//var inputbusyoName = $('#busyoName').val()
+	var inputbusyoName = $('#busyoName').val()
 	var requestQuery = {
 			syainId : inputSyainId,
-			syainName : inputSyainName
-			//busyoName : inputBusyoName
+			syainName : inputSyainName,
+			busyoName : inputBusyoName
 	};
 
 	$.ajax({
@@ -55,7 +61,6 @@ var getSyainData = function(){
 
 				$('#table_data').append(row)
 			}
-
 		},
 		error :function(XMLHttpRequest,textStatus,errorThrown){
 			alert('データの通信に失敗しました。')
@@ -78,7 +83,7 @@ var search = function(){
 }
 
 var edit = function(){
-	console.log('aaa');
+
 	location.href = './AddEdit.html';
 }
 
@@ -91,7 +96,7 @@ var deletion = function(o){
 
 var commit = function(){
 	console.log('commit');
-	// append a feature to insert data to DB
+	// append a feature to add data to DB
 }
 
 var cancel = function(){

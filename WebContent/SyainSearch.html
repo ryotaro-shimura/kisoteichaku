@@ -10,11 +10,10 @@
 <body>
 	<h1>条件を指定して社員情報を検索します。</h1>
 	<form>
-		所属部署：<select name="busyo">
-					<option value="" id="busyoName"></option>
-				</select>
-		社員ID：<input type="text" name="id" id="syainId">
-		名前に含む文字：<input type="text" name="name" id="name">
+		所属部署：<select name="busyo" id="busyoName">
+				</select><br>
+		社員ID：<input type="text" name="id" id="syainId"><br>
+		名前に含む文字：<input type="text" name="name" id="name"><br>
 		<input type="button" value="検索" id="search-button" onclick="getSyainData()">
 	</form>
 
