@@ -13,7 +13,7 @@ function executeAjax (){
 				'<td id="syainId">'+json[i].syainId+'</td>'+
 				'<td id="syainName">'+json[i].syainName+'</td>'+
 				'<td>'+'<input type="button" value="編集" id="syain_edit" onclick="edit()">'+'</td>'+
-				'<td>'+'<input type="button" value="削除" id="syain_delete" onclick="deletion()">'+'</td>'+
+				'<td>'+'<input type="button" value="削除" id="syain_delete" onclick="deletion(this)">'+'</td>'+
 				'</tr>';
 
 				$('#table_data').append(row)
