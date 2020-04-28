@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Servlet implementation class SyainSearch
  */
-@WebServlet("/Search")
+@WebServlet("/Syain/Search")
 public class SyainSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -98,10 +98,11 @@ public class SyainSearch extends HttpServlet {
 
 						syain.setSyainId(rs1.getString("SYAIN_ID"));
 						syain.setSyainName(rs1.getString("SYAIN_NAME"));
-						syain.setSyainAge(rs1.getString("SYAIN_AGE"));
-						syain.setSyainGender(rs1.getString("SYAIN_GENDER"));
-						syain.setSyainAddress(rs1.getString("SYAIN_ADDRESS"));
-						syain.setBusyoId(rs1.getString("BUSYO_ID"));
+						syain.setBusyoName(rs1.getString("BUSYO_NAME"));
+//						syain.setSyainAge(rs1.getString("SYAIN_AGE"));
+//						syain.setSyainGender(rs1.getString("SYAIN_GENDER"));
+//						syain.setSyainAddress(rs1.getString("SYAIN_ADDRESS"));
+//						syain.setBusyoId(rs1.getString("BUSYO_ID"));
 
 						syainList.add(syain);
 					}
