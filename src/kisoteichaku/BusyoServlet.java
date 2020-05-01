@@ -56,12 +56,12 @@ public class BusyoServlet extends HttpServlet {
 
 			// 実行するSQL文
 			String sql = "SELECT \n" +
-					"	MS.BUSYO_ID, \n" +
-					"	MS.BUSYO_NAME \n" +
+					"	BU.BUSYO_ID, \n" +
+					"	BU.BUSYO_NAME \n" +
 					"FROM \n" +
-					"	MS_BUSYO MS \n" +
-					"WHERE \n" +
-					"	MS.BUSYO_ID = 'D01' \n"
+					"	MS_BUSYO BU \n" +
+					"ORDER BY \n" +
+					"	BU.BUSYO_ID \n"
 			;
 
 			List<BusyoInfo> busyoList = new ArrayList<>();

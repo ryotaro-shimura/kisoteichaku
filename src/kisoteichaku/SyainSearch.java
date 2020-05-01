@@ -42,7 +42,7 @@ public class SyainSearch extends HttpServlet {
 
 		String syainId = request.getParameter("syainId");
 		String syainName = request.getParameter("syainName");
-//		String  busyoName = request.getParameter("busyoName");
+		String  busyoName = request.getParameter("busyoName");
 
 		// JDBCドライバの準備
 				try {
@@ -61,18 +61,27 @@ public class SyainSearch extends HttpServlet {
 				String pass = "kisoteichaku";
 
 				// 実行するSQL文
-				String sql = "SELECT " +
-						"	SY.SYAIN_ID, " +
-						"	SY.SYAIN_NAME, " +
-						"	BU.BUSYO_NAME " +
-						"FROM " +
-						"    TR_SYAIN SY, " +
-						"	MS_BUSYO BU " +
-						"WHERE " +
-						"	1=1 " +
-						"	AND SY.BUSYO_ID = BU.BUSYO_ID " +
-						"	AND (SY.SYAIN_ID = '"+syainId+"' OR SY.SYAIN_NAME = '"+syainName+"' )"
-				;
+				String sql ="SELECT \n" +
+						"	SY.SYAIN_ID, \n" +
+						"	SY.SYAIN_NAME, \n" +
+						"	SY.SYAIN_AGE, \n" +
+						"	SY.SYAIN_GENDER, \n" +
+						"	SY.SYAIN_ADDRESS, \n" +
+						"	SY.BUSYO_ID, \n" +
+						"	BU.BUSYO_NAME, \n" +
+						"	SY.ENGAGE_DATE, \n" +
+						"	SY.RETIRE_DATE \n" +
+						"	 \n" +
+						"FROM \n" +
+						"	TR_SYAIN SY, \n" +
+						"	MS_BUSYO BU \n" +
+						"WHERE \n" +
+						"	1=1 \n" +
+						"	AND BU.BUSYO_ID = SY.BUSYO_ID \n" +
+						"AND (SY.SYAIN_ID = '"+syainId+"' OR SY.SYAIN_NAME = '"+syainName+"%' OR BU.BUSYO_NAME = '"+busyoName+"')"+
+						"ORDER BY \n" +
+						"	SY.SYAIN_ID \n"
+				;//上のSQLをif文を使って書き直す
 				//"+syainId+"AND (SY.SYAIN_ID = '"+syainId+"' OR SY.SYAIN_NAME = '"+syainName+"' OR BU.BUSYO_NAME = '"+busyoName+"')
 
 				List<SyainInfo> syainList = new ArrayList<>();
@@ -99,10 +108,13 @@ public class SyainSearch extends HttpServlet {
 						syain.setSyainId(rs1.getString("SYAIN_ID"));
 						syain.setSyainName(rs1.getString("SYAIN_NAME"));
 						syain.setBusyoName(rs1.getString("BUSYO_NAME"));
-//						syain.setSyainAge(rs1.getString("SYAIN_AGE"));
-//						syain.setSyainGender(rs1.getString("SYAIN_GENDER"));
-//						syain.setSyainAddress(rs1.getString("SYAIN_ADDRESS"));
-//						syain.setBusyoId(rs1.getString("BUSYO_ID"));
+						syain.setSyainAge(rs1.getString("SYAIN_AGE"));
+						syain.setSyainGender(rs1.getString("SYAIN_GENDER"));
+						syain.setSyainAddress(rs1.getString("SYAIN_ADDRESS"));
+						syain.setBusyoId(rs1.getString("BUSYO_ID"));
+						syain.setBusyoName(rs1.getString("BUSYO_NAME"));
+						syain.setEngageDate(rs1.getString("ENGAGE_DATE"));
+						syain.setRetireDate(rs1.getString("RETIRE_DATE"));
 
 						syainList.add(syain);
 					}

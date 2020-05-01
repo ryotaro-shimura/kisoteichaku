@@ -15,16 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Servlet implementation class SyainRegist
+ * Servlet implementation class BusyoEdit
  */
-@WebServlet("/SyainRegist")
-public class SyainRegist extends HttpServlet {
+@WebServlet("/BusyoEdit")
+public class BusyoEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SyainRegist() {
+    public BusyoEdit() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,19 +42,13 @@ public class SyainRegist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
+		doGet(request, response);
 
 		response.setContentType("text/html;charset=UTF-8");
 		// request parameter
-		String syainId = request.getParameter("syainId");
-		String syainName = request.getParameter("syainName");
-		String syainAge = request.getParameter("syainAge");
-		String syainGender = request.getParameter("syainGender");
-		String syainAddress = request.getParameter("syainAddress");
+		String id = request.getParameter("id");
+		String busyoId = request.getParameter("busyoId");
 		String busyoName = request.getParameter("busyoName");
-		String engageDate = request.getParameter("engageDate");
-		String retireDate = request.getParameter("retireDate");
-
 		// JDBCドライバの準備
 		try {
 
@@ -72,12 +66,13 @@ public class SyainRegist extends HttpServlet {
 		String pass = "kisoteichaku";
 
 		// 実行するSQL文
-		String sql ="INSERT INTO TR_SYAIN \n" +
-				"(SYAIN_ID, SYAIN_NAME, SYAIN_AGE, SYAIN_GENDER, SYAIN_ADDRESS,  \n" +
-				"DEPARTMENT, ENGAGE_DATE, RETIRE_DATE) \n" +
-				"VALUES \n" +
-				"('"+syainId+"', '"+syainName+"', '"+syainAge+"', '"+syainGender+"', '"+syainAddress+"',   \n" +
-				" '"+busyoName+"', '"+engageDate+"', '"+retireDate+"') "
+		String sql = "UPDATE \n" +
+				"	MS_BUSYO \n" +
+				"SET \n" +
+				"	BUSYO_ID = '"+busyoId+"', " +
+				"	BUSYO_NAME = '"+busyoName+"' " +
+				"WHERE \n" +
+				"	BUSYO_ID = '"+id+"' "
 		;
 
 		System.out.println(sql);

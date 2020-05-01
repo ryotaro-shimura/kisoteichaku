@@ -58,20 +58,23 @@ public class SyainServlet extends HttpServlet {
 		String pass = "kisoteichaku";
 
 		// 実行するSQL文
-		String sql ="SELECT  \n" +
+		String sql ="SELECT \n" +
 				"	SY.SYAIN_ID, \n" +
 				"	SY.SYAIN_NAME, \n" +
 				"	SY.SYAIN_AGE, \n" +
 				"	SY.SYAIN_GENDER, \n" +
 				"	SY.SYAIN_ADDRESS, \n" +
 				"	SY.BUSYO_ID, \n" +
-				"	BU.BUSYO_NAME \n" +
+				"	BU.BUSYO_NAME, \n" +
+				"	SY.DEPARTMENT, \n" +
+				"	SY.ENGAGE_DATE, \n" +
+				"	SY.RETIRE_DATE \n" +
 				"FROM \n" +
-				"	MS_BUSYO BU,  \n" +
+				"	MS_BUSYO BU, \n" +
 				"	TR_SYAIN SY \n" +
 				"WHERE \n" +
 				"	1=1 \n" +
-				"	AND BU.BUSYO_ID = SY.BUSYO_ID \n" +
+				"	AND BU.BUSYO_NAME = SY.DEPARTMENT OR  BU.BUSYO_ID = SY.BUSYO_ID  \n" +
 				"ORDER BY \n" +
 				"	SY.SYAIN_ID \n"
 		;
@@ -103,6 +106,7 @@ public class SyainServlet extends HttpServlet {
 				syain.setSyainAddress(rs1.getString("SYAIN_ADDRESS"));
 				syain.setBusyoId(rs1.getString("BUSYO_ID"));
 				syain.setBusyoName(rs1.getString("BUSYO_NAME"));
+				syain.setDepartment(rs1.getString("DEPARTMENT"));
 				syainList.add(syain);
 			}
 

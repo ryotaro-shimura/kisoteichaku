@@ -11,6 +11,9 @@ public class SyainInfo implements Serializable {
 	private String syainAddress;
 	private String busyoId;
 	private String busyoName;
+	private String engageDate;
+	private String retireDate;
+	private String department;
 //	private String url;
 
 	public String getSyainId() {
@@ -61,6 +64,24 @@ public class SyainInfo implements Serializable {
 	}
 	public void setBusyoName(String busyoName) {
 		this.busyoName = busyoName;
+	}
+	public String getEngageDate() {
+		return engageDate;
+	}
+	public void setEngageDate(String engageDate) {
+		this.engageDate = engageDate;
+	}
+	public String getRetireDate() {
+		return retireDate;
+	}
+	public void setRetireDate(String retireDate) {
+		this.retireDate = retireDate;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 	@Override
 

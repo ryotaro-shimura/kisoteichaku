@@ -15,16 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Servlet implementation class SyainRegist
+ * Servlet implementation class SyainEdit
  */
-@WebServlet("/SyainRegist")
-public class SyainRegist extends HttpServlet {
+@WebServlet("/SyainEdit")
+public class SyainEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SyainRegist() {
+    public SyainEdit() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,8 +42,7 @@ public class SyainRegist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-
+		doGet(request, response);
 		response.setContentType("text/html;charset=UTF-8");
 		// request parameter
 		String syainId = request.getParameter("syainId");
@@ -72,12 +71,7 @@ public class SyainRegist extends HttpServlet {
 		String pass = "kisoteichaku";
 
 		// 実行するSQL文
-		String sql ="INSERT INTO TR_SYAIN \n" +
-				"(SYAIN_ID, SYAIN_NAME, SYAIN_AGE, SYAIN_GENDER, SYAIN_ADDRESS,  \n" +
-				"DEPARTMENT, ENGAGE_DATE, RETIRE_DATE) \n" +
-				"VALUES \n" +
-				"('"+syainId+"', '"+syainName+"', '"+syainAge+"', '"+syainGender+"', '"+syainAddress+"',   \n" +
-				" '"+busyoName+"', '"+engageDate+"', '"+retireDate+"') "
+		String sql =
 		;
 
 		System.out.println(sql);
@@ -107,5 +101,6 @@ public class SyainRegist extends HttpServlet {
 
 
 	}
+
 
 }

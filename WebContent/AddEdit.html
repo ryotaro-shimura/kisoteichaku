@@ -13,10 +13,12 @@
 		社員ID：<input type="text" name="id" id="syainId"><br>
 		名前: <input type="text" name="name" id="syainName"><br>
 		年齢:<input type="text" name="age" id="syainAge"><br>
-		性別:<input type="checkbox" name="gender" id="syainGender">男性
-			<input type="checkbox" name="gender" id="syainGender">女性<br>
-		郵便番号:<input type="text" name="postNumber" id="postNumber"><br>
-		都道府県:<select name="pref">
+		<div >
+		性別:<input type="radio" name="gender" value="男性" class="syainGender">男性
+			<input type="radio" name="gender" value="女性" class="syainGender">女性<br>
+		</div>
+		郵便番号:<input type="text" name="postalCode" id="postalCode"><br>
+		都道府県:<select name="pref" id="pref">
 					<option value="">選択してください</option>
 					<option value="北海道">北海道</option>
 					<option value="青森県">青森県</option>
@@ -71,8 +73,11 @@
 				</select><br>
 			入社日:<input type="text" name="start" id="start"><br>
 			退社日:<input type="text" name="retire" id="retire"><br>
-			<button id="commit">設定</button><br>
+			<input type="button"  value="設定" id="commit" onclick="setting()"><br>
 			<button id="cancel">キャンセル</button>
 	</form>
+	<div>
+		<a href="./SyainInfo.html">社員一覧に戻る。</a>
+	</div>
 </body>
 </html>
