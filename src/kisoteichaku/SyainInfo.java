@@ -14,7 +14,7 @@ public class SyainInfo implements Serializable {
 	private String engageDate;
 	private String retireDate;
 	private String department;
-//	private String url;
+
 
 	public String getSyainId() {
 		return syainId;
@@ -52,12 +52,7 @@ public class SyainInfo implements Serializable {
 	public void setBusyoId(String busyoId) {
 		this.busyoId = busyoId;
 	}
-//	public String getUrl() {
-//		return url;
-//	}
-//	public void setUrl(String url) {
-//		this.url = url;
-//	}
+
 
 	public String getBusyoName() {
 		return busyoName;

@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebServlet("/SyainEdit")
 public class SyainEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,7 +44,8 @@ public class SyainEdit extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		response.setContentType("text/html;charset=UTF-8");
-		// request parameter
+
+		String id = request.getParameter("id");
 		String syainId = request.getParameter("syainId");
 		String syainName = request.getParameter("syainName");
 		String syainAge = request.getParameter("syainAge");
@@ -53,6 +54,7 @@ public class SyainEdit extends HttpServlet {
 		String busyoName = request.getParameter("busyoName");
 		String engageDate = request.getParameter("engageDate");
 		String retireDate = request.getParameter("retireDate");
+
 
 		// JDBCドライバの準備
 		try {
@@ -71,7 +73,19 @@ public class SyainEdit extends HttpServlet {
 		String pass = "kisoteichaku";
 
 		// 実行するSQL文
-		String sql =
+		String sql = "UPDATE  \n" +
+				"	TR_SYAIN \n" +
+				"SET \n" +
+				"	SYAIN_ID = '"+syainId+"', \n" +
+				"	SYAIN_NAME = '"+syainName+"', \n" +
+				"	SYAIN_AGE = '"+syainAge+"', \n" +
+				"	SYAIN_GENDER = '"+syainGender+"', \n" +
+				"	SYAIN_ADDRESS = '"+syainAddress+"', \n" +
+				"	DEPARTMENT = '"+busyoName+"', \n" +
+				"	ENGAGE_DATE = '"+engageDate+"', \n" +
+				"	RETIRE_DATE = '"+retireDate+"' \n" +
+				"WHERE \n" +
+				"	SYAIN_ID = '"+id+"' "
 		;
 
 		System.out.println(sql);
