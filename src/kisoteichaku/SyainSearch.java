@@ -67,7 +67,7 @@ public class SyainSearch extends HttpServlet {
 						"	SY.SYAIN_AGE, \n" +
 						"	SY.SYAIN_GENDER, \n" +
 						"	SY.SYAIN_ADDRESS, \n" +
-						"	SY.BUSYO_ID, \n" +
+						"	BU.BUSYO_ID, \n" +
 						"	BU.BUSYO_NAME, \n" +
 						"	SY.ENGAGE_DATE, \n" +
 						"	SY.RETIRE_DATE \n" +
