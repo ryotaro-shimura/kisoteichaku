@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>社員情報追加ページ</title>
-<!-- read a css file here -->
+<link rel="stylesheet" type="text/css" href="ListPage.css">
 <script type="text/javascript" src="jquery-1.10.2.js"></script>
 <script type="text/javascript" src="SyainInfo.js"></script>
 </head>
@@ -73,10 +73,10 @@
 				</select><br>
 			入社日:<input type="text" name="start" id="start"><br>
 			退社日:<input type="text" name="retire" id="retire"><br>
-			<input type="button"  value="設定" id="commit" onclick="setting()"><br>
+			<input type="button"  value="設定" id="commit" onclick="setting()">
 			<button id="cancel">キャンセル</button>
 	</form>
-	<div>
+	<div class="BacktoList">
 		<a href="./SyainInfo.html">社員一覧に戻る。</a>
 	</div>
 </body>

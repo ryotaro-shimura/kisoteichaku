@@ -1,9 +1,14 @@
 @CHARSET "UTF-8";
 
+body {
+	padding-left: 20px;
+}
+
 table {
 	/* 枠線 */
 	border-collapse: collapse;
 	border-right: 1px solid #999;
+	margin-bottom: 15px;
 }
 
 table th {
@@ -11,13 +16,14 @@ table th {
 	padding: 10px;
 	/* 枠線 */
 	border-top: 1px solid #fff;
+	border-right :1px solid #fff;
 	/* 文字色 */
 	color: #fff;
 	/* 文字表示 */
-	text-align: left;
+	text-align: center;
 	vertical-align: top;
 	/* 背景色 */
-	background-color: #555;
+	background-color:#3366cc;
 }
 
 table td {
@@ -32,5 +38,33 @@ table td {
 
 .top th {
 	background-color:#3366cc;
-	color:#000000;
+	color:#ffffff;
+	text-align; center;
+}
+
+#search-button {
+	margin-top:5px;
+}
+
+ p {
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
+.BacktoList {
+	margin-top: 20px;
+}
+
+#form > input,select {
+	margin-top:5px;
+	margin-bottom: 5px;
+
+}
+
+#commit {
+	margin-right :10px;
+}
+
+#new_add {
+	margin-right: 10px;
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>部署追加・編集ページ</title>
-<!--  read a css file here -->
+<link rel="stylesheet" type="text/css" href="ListPage.css">
 <script type="text/javascript" src="jquery-1.10.2.js"></script>
 <script type="text/javascript" src="Busyo.js"></script>
 </head>
@@ -12,10 +12,12 @@
 	<form id="form">
 		部署名：<input type="text" id="busyoName"><br>
 		部署ID：<input type="text" id="busyoId"><br>
-		<input type="button" value="設定" id="commit" onclick="setting()"><br>
+		<input type="button" value="設定" id="commit" onclick="setting()">
 		<button id="cancel">キャンセル</button>
 	</form>
-	<a href="Busyo.html">部署一覧に戻る</a>
+	<div class="BacktoList">
+		<a href="Busyo.html">部署一覧に戻る</a>
+	</div>
 </body>
 </html>
 

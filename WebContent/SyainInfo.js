@@ -55,6 +55,20 @@ var getSyainData = function(){
 				var message = '<p>'+'該当する社員がいません'+'</p>'
 				$('#searchResult').append(message);
 			}else{
+				//列名の表示
+				var title = '<tr>'+
+				'<th>'+'社員ID'+'</th>'+
+				'<th>'+'名前'+'</th>'+
+				'<th>'+'所属部署'+'</th>'+
+				'<th>'+'部署ID'+'</th>'+
+				'<th>'+'年齢'+'</th>'+
+				'<th>'+'性別'+'</th>'+
+				'<th>'+'住所'+'</th>'+
+				'<th>'+'入社日'+'</th>'+
+				'<th>'+'退社日'+'</th>'+
+				'</tr>';
+				$('#searchResult').append(title);
+
 				for(var i=0; i<json.length; i++){
 
 					var row ='<tr>'+
