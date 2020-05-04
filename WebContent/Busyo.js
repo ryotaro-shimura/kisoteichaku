@@ -46,7 +46,6 @@ var deletion = function(o,busyoId){
 	TR.parentNode.deleteRow(TR.sectionRowIndex);
 
 	var deletion = busyoId;
-
 	var requestQuery = {
 			del : deletion
 	};
@@ -74,16 +73,16 @@ var setting = function(){
 	var param = GetQueryString();
 	var id = param["id"];
 	console.log(id);
-	//append a feature to add input data to DB
+
 	var inputBusyoName = $('#busyoName').val();
 	var inputBusyoId = $('#busyoId').val();
+
 	if(id == undefined){//idがなかったら
 		var requestQuery = {
 				busyoName : inputBusyoName,
 				busyoId : inputBusyoId
 
 		};
-
 		console.log('input',requestQuery);
 
 		$.ajax({
@@ -96,21 +95,19 @@ var setting = function(){
 				alert('登録が完了しました');
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown){
-				alert('you have failed to access to the servlet');
+				alert('you have failed to register data');
 				console.log(errorThrown)
 			}
 		});
-
 	}
 	else{//idがあったら
-
 		var requestQuery = {
 				id : id,
 				busyoName :inputBusyoName,
 				busyoId : inputBusyoId
 		};
-
 		console.log(requestQuery);
+
 		$.ajax({
 			type: 'POST',
 			url: '/kisoteichaku/BusyoEdit' ,
@@ -118,6 +115,7 @@ var setting = function(){
 			dataType : 'json',
 			success :function(json){
 				console.log(json)
+				alert('登録が完了しました');
 			},
 			error :function(XMLHttpRequest,textStatus,errorThrown){
 				alert('データの通信に失敗しました。')
@@ -127,7 +125,7 @@ var setting = function(){
 	}
 
 }
-
+//URLからパラメータの部分を取得
 function GetQueryString() {
     var result = new Object();
     if (1 < document.location.search.length) {
@@ -154,9 +152,9 @@ function GetQueryString() {
     return result;
 }
 
+//キャンセルボタンを押したときすべての枠の入力値をリセット
 var cancel = function(){
 	console.log('cancel');
-	//append a feature to reset all colums
 	$('#form')[0].reset();
 }
 
@@ -164,11 +162,6 @@ $(document).ready(function(){
 	executeAjax ();
 
 	$('#new_add').click(newlyAdd);
-	//$('#busyo_edit').click(edit);
-	//$('#busyo_delete').click(deletion);
 	$('#cancel').click(cancel);
-	//$('#commit').click(commit);
-
-
 
 });

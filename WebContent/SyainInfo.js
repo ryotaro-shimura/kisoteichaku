@@ -1,7 +1,7 @@
 
 
 function executeAjax (){
-
+//初期表示
 	$.ajax({
 		type: 'GET',
 		url: '/kisoteichaku/SyainList' ,
@@ -12,8 +12,8 @@ function executeAjax (){
 				var row = '<tr>'+
 				'<td id="syainId">'+json[i].syainId+'</td>'+
 				'<td id="syainName">'+json[i].syainName+'</td>'+
-				'<td>'+'<input type="button" value="編集" id="syain_edit" onclick="edit()">'+'</td>'+
-				'<td>'+'<input type="button" value="削除" id="syain_delete" onclick="deletion(this)">'+'</td>'+
+				'<td>'+'<input type="button" value="編集" id="syain_edit" onclick="edit(\''+json[i].syainId+'\')">'+'</td>'+
+				'<td>'+'<input type="button" value="削除" id="syain_delete" onclick="deletion(this,\''+json[i].syainId+'\')">'+'</td>'+
 				'</tr>';
 
 				$('#table_data').append(row)
@@ -25,23 +25,13 @@ function executeAjax (){
 		}
 	});
 
-
-	$.ajax({
-		type:'GET',
-		url: '/kisoteichaku/BusyoList',
-		dataType: 'json',
-		suceess :function(){
-			var blank ='<option>' +''+'</option>';
-			$('#busyoName').append(blank);
-			for(var i=0; i<json.length; i++){
-				var department = '<option>' + json[i].busyoName + '</option>';
-
-				$('#busyoName').append(department)
-			}
-		}
-	});
 }
-//look up
+//検索画面に遷移
+var search = function(){
+	location.href = './SyainSearch.html';
+}
+
+//社員検索
 var getSyainData = function(){
 	console.log('click');
 	var inputSyainId = $('#syainId').val();
@@ -52,7 +42,7 @@ var getSyainData = function(){
 			syainName : inputSyainName,
 			busyoName : inputBusyoName
 	};
-
+	console.log(requestQuery);
 	$.ajax({
 		type: 'GET',
 		url: '/kisoteichaku/Syain/Search' ,
@@ -62,11 +52,11 @@ var getSyainData = function(){
 		success :function(json){
 			console.log(json);
 			if(json.length == 0){
-				var message = '<h3>'+'該当する社員がいません'+'</h3>'
+				var message = '<p>'+'該当する社員がいません'+'</p>'
 				$('#searchResult').append(message);
 			}else{
 				for(var i=0; i<json.length; i++){
-					//output Employee's data
+
 					var row ='<tr>'+
 						'<td>'+json[i].syainId+'</td>'+
 						'<td>'+json[i].syainName+'</td>'+
@@ -86,84 +76,186 @@ var getSyainData = function(){
 			alert('データの通信に失敗しました。')
 		}
 	});
-
-
 }
 
-
-
-
-
+//新規追加画面に遷移（setting()に実際の処理）
 var newlyAdd = function(){
 	location.href = './AddEdit.html';
 }
 
-var search = function(){
-	location.href = './SyainSearch.html';
+//編集機能（setting()のelseの部分が実際の処理内容）
+var edit = function(syainId){
+	console.log('edit');
+	var edit = syainId;
+	var requestQuery = {
+			ed : edit
+	};
+
+	location.href = './AddEdit.html?id='+syainId;
 }
-
-var edit = function(){
-
-	location.href = './AddEdit.html';
-}
-
-var deletion = function(o){
+//削除機能
+var deletion = function(o,syainId){
 	console.log('aaa');
-	// append a feature to delete rows
+	//hide displayed info.
 	var TR = o.parentNode.parentNode;
 	TR.parentNode.deleteRow(TR.sectionRowIndex);
+	//delete data from db
+	var delSyain = syainId;
+
+	var requestQuery = {
+			del : delSyain
+	};
+	console.log(requestQuery);
+	$.ajax({
+		type: 'GET',
+		url: '/kisoteichaku/SyainDelete' ,
+		data: requestQuery,
+		dataType : 'json',
+		success :function(json){
+			alert('消去が完了しました')
+
+		},
+		error :function(XMLHttpRequest,textStatus,errorThrown){
+			alert('データの通信に失敗しました。')
+		}
+	});
 }
-// add new data to employee table
+// 新規追加
 var setting = function(){
 	console.log('commit');
 
 	var inputSyainId = $('#syainId').val();
 	var inputSyainName = $('#syainName').val();
 	var inputSyainAge = $('#syainAge').val();
-	var inputSyainGender = $('.syainGender').val();
+	// get a value from radio button
+	var element = document.getElementById("form");
+	var radioNodeList = element.gender;
+	var inputSyainGender = radioNodeList.value;//select one of genders and get its value
 	var inputpostalCode = $('#postalCode').val();
 	var inputAddress = $('#postalCode').val()+$('#pref').val() + $('#address').val();
 	var inputBusyoName = $('#busyoName').val()
 	var inputEngageDate = $('#start').val();
 	var inputRetireDate = $('#retire').val();
+	var param = GetQueryString();
+	var id = param["id"];
 
-	var requestQuery = {
-			syainId : inputSyainId,
-			syainName : inputSyainName,
-			syainAge : inputSyainAge,
-			syainGender : inputSyainGender,
-			postalCode : inputpostalCode,
-			syainAddress : inputAddress,
-			busyoName : inputBusyoName,
-			engageDate : inputEngageDate,
-			retireDate : inputRetireDate
-	};
+	if(id == undefined){  //リクエストパラメータがない場合（新規追加）
+		var requestQuery = {
+				syainId : inputSyainId,
+				syainName : inputSyainName,
+				syainAge : inputSyainAge,
+				syainGender : inputSyainGender,
+				postalCode : inputpostalCode,
+				syainAddress : inputAddress,
+				busyoName : inputBusyoName,
+				engageDate : inputEngageDate,
+				retireDate : inputRetireDate
+		};
+		console.log('input:',requestQuery);
 
-	console.log('input:',requestQuery);
+		$.ajax({
+			type :'POST',
+			dataType : 'json',
+			url: '/kisoteichaku/SyainRegist',
+			data : requestQuery,
+			success : function(json){
+				console.log(json);
+				alert('登録が完了しました');
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown){
+				alert('you have failed to register data');
+				console.log(errorThrown);
+			}
+		});
+	}else{ //リクエストパラメータがある場合（既存情報の編集）
+		var requestQuery = {
+				syainId : inputSyainId,
+				syainName : inputSyainName,
+				syainAge : inputSyainAge,
+				syainGender : inputSyainGender,
+				postalCode : inputpostalCode,
+				syainAddress : inputAddress,
+				busyoName : inputBusyoName,
+				engageDate : inputEngageDate,
+				retireDate : inputRetireDate,
+				id : id  //パラメータをrequestQueryに含めてサーブレットに送る
+		};
+		console.log('input:',requestQuery);
 
+		$.ajax({
+			type :'POST',
+			dataType : 'json',
+			url: '/kisoteichaku/SyainEdit',
+			data : requestQuery,
+			success : function(json){
+				console.log(json);
+				alert('登録が完了しました');
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown){
+				alert('you have failed to register data');
+				console.log(errorThrown);
+			}
+		});
+	}
+}
+
+//URLからパラメータの部分を取得
+function GetQueryString() {
+    var result = new Object();
+    if (1 < document.location.search.length) {
+        // 最初の1文字 (?記号) を除いた文字列を取得する
+        console.log(document.location.search);
+    	var query = document.location.search.substring(1);
+        console.log(query);
+        // クエリの区切り記号 (&) で文字列を配列に分割する
+        var parameters = query.split('&');
+        console.log(parameters);
+        for (var i = 0; i < parameters.length; i++) {
+            // パラメータ名とパラメータ値に分割する
+            var element = parameters[i].split('=');
+            console.log(element);
+            var paramName = decodeURIComponent(element[0]);
+            console.log(paramName);
+            var paramValue = decodeURIComponent(element[1]);
+            console.log(paramValue);
+            // パラメータ名をキーとして連想配列に追加する
+            result[paramName] = paramValue;
+        }
+        //result = {id: "EMP0001", name: "tanaka",age:"10"}
+    }
+    return result;
+}
+
+//プルダウンリストに部署名を表示
+var pulldownList = function(){
+	console.log('pulldownList');
 	$.ajax({
-		type :'POST',
+		type :'GET',
+		url : '/kisoteichaku/BusyoList',
 		dataType : 'json',
-		url: '/kisoteichaku/SyainRegist',
-		data : requestQuery,
-		success : function(json){
+		success :function(json){
 			console.log(json);
-			alert('登録が完了しました');
+			var blank ='<option>' +'</option>';
+			$('#busyoName').append(blank);
+			for(var i=0; i<json.length; i++){
+				var department = '<option>' + json[i].busyoName + '</option>';
+				$('#busyoName').append(department)
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown){
-			alert('you have failed to access to the servlet');
+			alert('プルダウンリストの表示に失敗');
 			console.log(errorThrown);
 		}
 	});
-
 }
 
+//キャンセルボタンを押したときすべての入力欄の値をリセット
 var cancel = function(){
 	console.log('cancel');
 	//append a feature to reset all colums
 	$('#form')[0].reset();
 }
-
+//検索結果を消去
 var reset = function(){
 	console.log('reset');
 	$('#searchResult').empty();
@@ -171,12 +263,12 @@ var reset = function(){
 
 $(document).ready(function(){
 	 executeAjax ();
+	 pulldownList();
 
 	$('#new_add').click(newlyAdd);
 	$('#search').click(search);
 	$('.syain_edit').click(edit);
 	$('.syain_delete').click(deletion);
-	//$('#commit').click(commit);
 	$('#cancel').click(cancel);
 	$('#resultReset').click(reset);
 
