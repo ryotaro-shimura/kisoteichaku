@@ -77,19 +77,19 @@ public class SyainSearch extends HttpServlet {
 						"	MS_BUSYO BU \n" +
 						"WHERE \n" +
 						"	1=1 \n" +
-						"	AND BU.BUSYO_ID = SY.BUSYO_ID \n" +
-						"ORDER BY \n" +
-						"	SY.SYAIN_ID \n"
+						"	AND (BU.BUSYO_NAME = SY.DEPARTMENT OR BU.BUSYO_ID = SY.BUSYO_ID)\n";
+						if(!syainId.equals("")){
+							sql += " AND SY.SYAIN_ID = '"+syainId+"'";
+						}
+						if(!busyoName.equals("")){
+								sql += "AND BU.BUSYO_NAME = '"+busyoName+"'";
+						}
+						if(!syainName.equals("")){
+								sql += " AND SY.SYAIN_NAME LIKE '%"+syainName+"%'";
+						}
+						sql += "ORDER BY \n" +
+								"	SY.SYAIN_ID \n"
 						;
-				if(!syainId.equals("")){
-						sql += "where SY.SYAIN_ID = '"+syainId+"'";
-				}
-				if(!busyoName.equals("")){
-						sql += "where BU.BUSYO_NAME = '"+busyoName+"'";
-				}
-				if(!syainName.equals("")){
-						sql += "where SY.SYAIN_NAME like '%"+syainName+"%'";
-				}
 
 				System.out.println(sql);
 				;//上のSQLをif文を使って書き直す
