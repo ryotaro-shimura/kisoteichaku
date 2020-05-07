@@ -1,4 +1,4 @@
-
+//部署一覧表示
 function executeAjax (){
 
 $.ajax({
@@ -24,27 +24,25 @@ $.ajax({
 });
 
 }
-
+//追加ページへの遷移
 var newlyAdd = function(){
 	location.href='./busyoAddEdit.html';
 }
-
+//編集ページへの遷移
 var edit = function(busyoId){
 	var edit = busyoId;
 	var requestQuery = {
 			edi : edit,
 	};
-
-
 	location.href='./busyoAddEdit.html?id='+busyoId
 }
-
+//削除ボタンを押したときのアクション
 var deletion = function(o,busyoId){
 	console.log('aaa');
-
+	//ディスプレイから表示を消す
 	var TR = o.parentNode.parentNode;
 	TR.parentNode.deleteRow(TR.sectionRowIndex);
-
+	//DBからデータを削除
 	var deletion = busyoId;
 	var requestQuery = {
 			del : deletion
@@ -66,7 +64,7 @@ var deletion = function(o,busyoId){
 
 }
 
-
+//設定ボタンを押したときのアクション（URLにパラメータが含まれているかどうかで処理を分岐）
 var setting = function(){
 	console.log('commit');
 	//param =｛id : 'D09'}
@@ -81,7 +79,6 @@ var setting = function(){
 		var requestQuery = {
 				busyoName : inputBusyoName,
 				busyoId : inputBusyoId
-
 		};
 		console.log('input',requestQuery);
 

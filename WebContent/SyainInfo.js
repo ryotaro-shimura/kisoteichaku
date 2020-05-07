@@ -1,7 +1,6 @@
 
-
+//社員一覧を初期表示
 function executeAjax (){
-//初期表示
 	$.ajax({
 		type: 'GET',
 		url: '/kisoteichaku/SyainList' ,
@@ -31,7 +30,7 @@ var search = function(){
 	location.href = './SyainSearch.html';
 }
 
-//社員検索
+//社員検索機能
 var getSyainData = function(){
 	console.log('click');
 	var inputSyainId = $('#syainId').val();
@@ -51,9 +50,10 @@ var getSyainData = function(){
 
 		success :function(json){
 			console.log(json);
+			reset();
 			if(json.length == 0){
 				var message = '<p>'+'該当する社員がいません'+'</p>'
-				$('#searchResult').append(message);
+				$('#noResult').append(message);
 			}else{
 				//列名の表示
 				var title = '<tr>'+
@@ -70,7 +70,7 @@ var getSyainData = function(){
 				$('#searchResult').append(title);
 
 				for(var i=0; i<json.length; i++){
-
+					//検索結果を行に追加
 					var row ='<tr>'+
 						'<td>'+json[i].syainId+'</td>'+
 						'<td>'+json[i].syainName+'</td>'+
@@ -110,12 +110,11 @@ var edit = function(syainId){
 //削除機能
 var deletion = function(o,syainId){
 	console.log('aaa');
-	//hide displayed info.
+	//ディスプレイから表示を消す
 	var TR = o.parentNode.parentNode;
 	TR.parentNode.deleteRow(TR.sectionRowIndex);
-	//delete data from db
+	//DBからデータを消去
 	var delSyain = syainId;
-
 	var requestQuery = {
 			del : delSyain
 	};
@@ -127,14 +126,13 @@ var deletion = function(o,syainId){
 		dataType : 'json',
 		success :function(json){
 			alert('消去が完了しました')
-
 		},
 		error :function(XMLHttpRequest,textStatus,errorThrown){
 			alert('データの通信に失敗しました。')
 		}
 	});
 }
-// 新規追加
+// 社員情報の新規追加・既存の社員情報の編集
 var setting = function(){
 	console.log('commit');
 
@@ -153,7 +151,7 @@ var setting = function(){
 	var param = GetQueryString();
 	var id = param["id"];
 
-	if(id == undefined){  //リクエストパラメータがない場合（新規追加）
+	if(id == undefined){  //URLパラメータがない場合（新規追加）
 		var requestQuery = {
 				syainId : inputSyainId,
 				syainName : inputSyainName,
@@ -181,7 +179,7 @@ var setting = function(){
 				console.log(errorThrown);
 			}
 		});
-	}else{ //リクエストパラメータがある場合（既存情報の編集）
+	}else{ //URLパラメータがある場合（既存情報の編集）
 		var requestQuery = {
 				syainId : inputSyainId,
 				syainName : inputSyainName,
@@ -284,7 +282,6 @@ $(document).ready(function(){
 	$('.syain_edit').click(edit);
 	$('.syain_delete').click(deletion);
 	$('#cancel').click(cancel);
-	$('#resultReset').click(reset);
 
 
 });
