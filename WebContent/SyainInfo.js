@@ -273,6 +273,25 @@ var reset = function(){
 	$('#searchResult').empty();
 }
 
+//ログアウト機能
+
+var logout = function(){
+	console.log('click');
+	$.ajax({
+		type : 'GET',
+		url : '/kisoteichaku/EmployeeLogout',
+		dataType : 'json',
+		success :function(json){
+			alert('ログアウトしました')
+			location.href = './EmployeeLogin.html'
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown){
+			alert('ログアウトに失敗しました');
+			console.log(errorThrown);
+		}
+	});
+}
+
 $(document).ready(function(){
 	 executeAjax ();
 	 pulldownList();
@@ -282,6 +301,6 @@ $(document).ready(function(){
 	$('.syain_edit').click(edit);
 	$('.syain_delete').click(deletion);
 	$('#cancel').click(cancel);
-
+	$('#logout').click(logout);
 
 });

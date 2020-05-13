@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,35 +17,37 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Servlet implementation class BusyoServlet
+ * Servlet implementation class EmployeeLogin
  */
-@WebServlet("/BusyoList")
-public class BusyoServlet extends HttpServlet {
+@WebServlet("/EmployeeLogin")
+public class EmployeeLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BusyoServlet() {
+    public EmployeeLogin() {
         super();
         // TODO Auto-generated constructor stub
     }
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
 		response.setContentType("text/html;charset=UTF-8");
-
 		HttpSession session = request.getSession(true);
-		String loginStatus = (String) session.getAttribute("login");
-		if(loginStatus == null){
+		String status = (String) session.getAttribute("login");
+		PrintWriter pw = response.getWriter();
+		String id = request.getParameter("id");
+		String passcode = request.getParameter("pass");
 
-		}else{
-
-			// JDBCドライバの準備
+		//DBにアクセスし、認証情報テーブルから社員IDとパスワードを取得
+		// JDBCドライバの準備
 			try {
-
 			    // JDBCドライバのロード
 			    Class.forName("oracle.jdbc.driver.OracleDriver");
 
@@ -62,51 +62,54 @@ public class BusyoServlet extends HttpServlet {
 			String pass = "kisoteichaku";
 
 			// 実行するSQL文
-			String sql = "SELECT \n" +
-					"	BU.BUSYO_ID, \n" +
-					"	BU.BUSYO_NAME \n" +
-					"FROM \n" +
-					"	MS_BUSYO BU \n" +
-					"ORDER BY \n" +
-					"	BU.BUSYO_ID \n"
+			String sql ="SELECT \n" +
+						"	SY.SYAIN_ID, \n" +
+						"	SY.PASSWORD, \n" +
+						"	SY.AUTHORITY \n" +
+						"FROM \n" +
+						"	TR_SYONIN SY \n" +
+						"WHERE \n" +
+						"	1=1 \n" +
+						"	AND SY.SYAIN_ID = '"+id+"' \n"
 			;
-
-			List<BusyoInfo> busyoList = new ArrayList<>();
-
+			System.out.println(sql);
+			UserIdentifying userInfo = new UserIdentifying();
 			// エラーが発生するかもしれない処理はtry-catchで囲みます
 			// この場合はDBサーバへの接続に失敗する可能性があります
 			try (
 					// データベースへ接続します
 					Connection con = DriverManager.getConnection(url, user, pass);
-
 					// SQLの命令文を実行するための準備をおこないます
 					Statement stmt = con.createStatement();
 
 					// SQLの命令文を実行し、その結果をResultSet型のrsに代入します
 					ResultSet rs1 = stmt.executeQuery(sql);
-					// SQL実行後の処理内容
+				// SQL実行後の処理内容
 				) {
 
+				if(rs1.next()) {
 
-
-				while (rs1.next()) {
-					BusyoInfo busyo = new BusyoInfo();
-
-					 busyo.setBusyoId(rs1.getString("BUSYO_ID"));
-					 busyo.setBusyoName(rs1.getString("BUSYO_NAME"));
-					 busyoList.add(busyo);
+					userInfo.setSyainId(rs1.getString("SYAIN_ID"));
+					userInfo.setPassword(rs1.getString("PASSWORD"));
+					userInfo.setAuthority(rs1.getString("AUTHORITY"));
 				}
+				if(passcode.equals(userInfo.getPassword())){
+					System.out.println("パスワードはあってる");
+					session.setAttribute("login","ok");
+					System.out.println((String) session.getAttribute("login"));
+					session.setAttribute("employeeId",userInfo.getSyainId());
+					System.out.println((String) session.getAttribute("employeeId"));
+					session.setAttribute("authority",userInfo.getAuthority());
+					System.out.println((String) session.getAttribute("authority"));
 
-
+				}else {
+						pw.append(new ObjectMapper().writeValueAsString("ログイン情報が不正です。"));
+				}
+				pw.append(new ObjectMapper().writeValueAsString(status));
 			} catch (Exception e) {
 				throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 			}
-
-			// アクセスした人に応答するためのJSONを用意する
-			PrintWriter pw = response.getWriter();
-			// JSONで出力する
-			pw.append(new ObjectMapper().writeValueAsString(busyoList));
-		}
+			//System.out.println(status);
 	}
 
 	/**
@@ -114,7 +117,9 @@ public class BusyoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+
+
+
 	}
 
 }
